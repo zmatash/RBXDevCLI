@@ -1,4 +1,4 @@
-﻿namespace TypeScriptCLI.Parsers.Zap;
+﻿namespace TypeScriptCLI.Models.Zap;
 
 public class ZapOptions
 {

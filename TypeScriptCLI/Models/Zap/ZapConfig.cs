@@ -1,6 +1,8 @@
 ﻿using System.Diagnostics;
+using TypeScriptCLI.Parsers;
+using TypeScriptCLI.Tools;
 
-namespace TypeScriptCLI.Parsers.Zap;
+namespace TypeScriptCLI.Models.Zap;
 
 public class ZapConfig
 {

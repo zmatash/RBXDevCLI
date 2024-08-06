@@ -1,6 +1,6 @@
-﻿using RobloxTS_DevCLI.Models.Zap;
+﻿using TypeScriptCLI.Models.Zap;
 
-namespace RobloxTS_DevCLI.Parsers;
+namespace TypeScriptCLI.Parsers;
 
 public class ZapParser
 {

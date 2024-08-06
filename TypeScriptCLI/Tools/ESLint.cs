@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics;
 
-namespace RobloxTS_DevCLI.ToolWrappers;
+namespace TypeScriptCLI.Tools;
 
 public class ESLint
 {
