@@ -11,10 +11,21 @@
 
     <ItemGroup>
         <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.6.0"/>
-        <PackageReference Include="NUnit" Version="3.13.3"/>
-        <PackageReference Include="NUnit3TestAdapter" Version="4.2.1"/>
-        <PackageReference Include="NUnit.Analyzers" Version="3.6.1"/>
         <PackageReference Include="coverlet.collector" Version="6.0.0"/>
+        <PackageReference Include="NUnit" Version="4.1.0"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <Folder Include="Resources\src\client\network\"/>
+        <Folder Include="Resources\src\server\network\"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <None Remove="Resources\zap.config"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\TypeScriptCLI\TypeScriptCLI.csproj"/>
     </ItemGroup>
 
 </Project>
