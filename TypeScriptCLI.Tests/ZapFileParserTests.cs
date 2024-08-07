@@ -30,4 +30,11 @@ public class ZapFileParserTests
             Is.EqualTo(Path.Join("src", "server", "network", "zap.luau")));
         Assert.That(zap.Options.YieldType, Is.EqualTo("promise"));
     }
+
+    [TearDown]
+    public void TearDown()
+    {
+        var files = Directory.GetFiles(Path.Join(_rootDir, "src"), "*", SearchOption.AllDirectories);
+        foreach (var file in files) File.Delete(file);
+    }
 }
