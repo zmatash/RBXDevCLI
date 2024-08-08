@@ -7,10 +7,13 @@ namespace TypeScriptCLI.Models.Zap;
 public class Zap
 {
     private readonly string _configPath;
+    private readonly string _zapRoot;
 
     public Zap(string configPath)
     {
         _configPath = configPath;
+        var configDir = Path.GetDirectoryName(configPath);
+        _zapRoot = configDir ?? throw new ArgumentNullException(nameof(configDir));
     }
 
     public Options Options { get; set; } = new();
@@ -23,6 +26,8 @@ public class Zap
 
     public void Run()
     {
+        Console.WriteLine("Running Zap...");
+
         var startInfo = new ProcessStartInfo
         {
             FileName = "zap",
@@ -44,31 +49,34 @@ public class Zap
         Console.WriteLine(output);
 
         if (Options.TypeScript) PostProcessTypeFiles();
+        Console.WriteLine("Zap finished.");
     }
 
     private void PostProcessTypeFiles()
     {
-        var clientTypes = Options.GetClientTypes();
-        var serverTypes = Options.GetServerTypes();
-        if (clientTypes == null || serverTypes == null)
+        var clientTypes = Path.Join(_zapRoot, Options.GetClientTypes());
+        var serverTypes = Path.Join(_zapRoot, Options.GetServerTypes());
+
+        if (!File.Exists(clientTypes) || !File.Exists(serverTypes))
         {
             Console.WriteLine("Types file not found. Skipping post processing.");
             return;
         }
 
-        var rootDir = Directory.GetCurrentDirectory();
-        var nodeModules = Path.Join(rootDir, "node_modules");
-        if (Directory.Exists(nodeModules))
-        {
-            Console.WriteLine("Formatting type files...");
-            var eslint = new ESLint();
-            eslint.RunEslint(clientTypes);
-            eslint.RunEslint(serverTypes);
-        }
-
-        Console.WriteLine("Post processing type files...");
+        Console.WriteLine("Applying type fix...");
         WriteExportToTypes(clientTypes);
         WriteExportToTypes(serverTypes);
+
+        var nodeModules = ESLint.FindNodeModules();
+        if (Directory.Exists(nodeModules))
+        {
+            Console.WriteLine("Formatting types...");
+            var eslint = new ESLint(_zapRoot);
+            eslint.RunEslint(Path.GetFullPath(clientTypes));
+            eslint.RunEslint(Path.GetFullPath(serverTypes));
+        }
+
+        Console.WriteLine("Post processing complete.");
     }
 
     private static void WriteExportToTypes(string file)

@@ -13,10 +13,18 @@ public class ZapFileParserTests
     {
         var dirInfo = new DirectoryInfo(Directory.GetCurrentDirectory());
         var rootInfo = dirInfo!.Parent!.Parent!.Parent;
-        _rootDir = Path.Join(rootInfo!.FullName, "Resources");
+        if (rootInfo is null) throw new DirectoryNotFoundException("Root directory not found");
+        _rootDir = Path.Join(rootInfo.FullName, "Resources");
 
         var zapConfigPath = Path.Join(_rootDir, "zap.config");
         _zap = ZapFileParser.ParseZapFile(zapConfigPath);
+    }
+
+    [TearDown]
+    public void TearDown()
+    {
+        var files = Directory.GetFiles(Path.Join(_rootDir, "src"), "*", SearchOption.AllDirectories);
+        foreach (var file in files) File.Delete(file);
     }
 
     [Test]
@@ -49,13 +57,6 @@ public class ZapFileParserTests
     public void ParseZapFile_ShouldHaveCorrectYieldType()
     {
         Assert.That(_zap.Options.YieldType, Is.EqualTo("promise"));
-    }
-
-    [TearDown]
-    public void TearDown()
-    {
-        var files = Directory.GetFiles(Path.Join(_rootDir, "src"), "*", SearchOption.AllDirectories);
-        foreach (var file in files) File.Delete(file);
     }
 
     private static string NormalisePath(string path)

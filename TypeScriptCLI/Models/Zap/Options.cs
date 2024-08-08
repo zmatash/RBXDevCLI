@@ -24,17 +24,17 @@ public class Options
 
     public string ClientOutput { get; set; } = "path/to/client/output.lua";
 
-    public string? GetClientTypes()
+    public string GetClientTypes()
     {
         var outputExt = Path.GetExtension(ClientOutput);
-        var types = outputExt.Replace(outputExt, ".d.ts");
-        return File.Exists(types) ? types : null;
+        var types = ClientOutput.Replace(outputExt, ".d.ts");
+        return types;
     }
 
-    public string? GetServerTypes()
+    public string GetServerTypes()
     {
         var outputExt = Path.GetExtension(ServerOutput);
-        var types = outputExt.Replace(outputExt, ".d.ts");
-        return File.Exists(types) ? types : null;
+        var types = ServerOutput.Replace(outputExt, ".d.ts");
+        return types;
     }
 }
