@@ -31,7 +31,7 @@ public class Zap
         var startInfo = new ProcessStartInfo
         {
             FileName = "zap",
-            Arguments = _configPath, // Add any arguments if needed
+            Arguments = _configPath,
             RedirectStandardOutput = true,
             RedirectStandardError = true,
             UseShellExecute = false,
