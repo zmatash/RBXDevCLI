@@ -63,9 +63,9 @@ public class Zap
             return;
         }
 
-        Console.WriteLine("Applying type fix...");
-        WriteExportToTypes(clientTypes);
-        WriteExportToTypes(serverTypes);
+        Console.WriteLine("Applying namespace modification...");
+        ZapDefinitionsParser.ParseDefinitionsFile(clientTypes);
+        ZapDefinitionsParser.ParseDefinitionsFile(serverTypes);
 
         var nodeModules = ESLint.FindNodeModules();
         if (Directory.Exists(nodeModules))
@@ -77,12 +77,5 @@ public class Zap
         }
 
         Console.WriteLine("Post processing complete.");
-    }
-
-    private static void WriteExportToTypes(string file)
-    {
-        using var writer = new StreamWriter(file, true);
-        writer.WriteLine();
-        writer.WriteLine("export {}");
     }
 }

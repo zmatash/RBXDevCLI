@@ -41,8 +41,8 @@ internal class Program
                 case 1:
                     isRunning = false;
                     break;
-            }
-        }
+            }  
+        }  
 
         Console.Clear();
         Console.WriteLine("Exiting...");
@@ -60,4 +60,6 @@ internal class Program
         var zap = Zap.FromFile(zapFile);
         zap.Run();
     }
+
+
 }
